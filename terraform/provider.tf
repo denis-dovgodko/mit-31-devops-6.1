@@ -9,12 +9,12 @@ terraform {
   backend "s3" {
     bucket = "lab6-tf-state"
     key = "terraform.tfstate"
-    dynamodb_table = "lab6-tfstate=lockid"
+    dynamodb_table = "lab6-tfstate-lockid"
     region     = "us-east-1"
   }
 }
 
 # Configure the AWS provider
 provider "aws" {
-  region     = "us-east-1"
+  region     = "us-east-2"
 }

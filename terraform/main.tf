@@ -28,11 +28,21 @@ resource "aws_security_group" "web_app" {
 }
 
 resource "aws_instance" "webapp_instance" {
-  ami           = "ami-0669b163befffbdfc"
+  ami           = var.ami
   instance_type = "t2.micro"
   security_groups= ["web_app"]
   tags = {
     Name = "webapp_instance"
+  }
+  user_data = <<-EOF
+  #!/bin/bash
+  sudo zypper install -y docker
+  sudo systemctl enable docker
+  sudo systemctl start docker
+  sudo docker run -d -p 80:8080 denisdovgodko/lab6flask:${var.image_tag} 
+  EOF
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
